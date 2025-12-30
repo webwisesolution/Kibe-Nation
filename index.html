@@ -1,0 +1,3056 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kibe Nation | Tribe & Identity</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #0a0a0a;
+            --accent: #C41E3A;
+            --secondary: #1a1a1a;
+            --text: #f5f5f5;
+            --text-secondary: #b0b0b0;
+            --light-gray: #333333;
+            --medium-gray: #444444;
+            --success: #2E8B57;
+            --warning: #FFA500;
+            --info: #4A90E2;
+            --danger: #DC3545;
+            --card-bg: #1e1e1e;
+            --section-bg: #141414;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+        }
+        
+        body {
+            background-color: var(--primary);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        /* Typography */
+        h1, h2, h3, h4 {
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            line-height: 1.1;
+        }
+        
+        h1 {
+            font-size: 3.2rem;
+            margin-bottom: 1.2rem;
+        }
+        
+        h2 {
+            font-size: 2.2rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        h3 {
+            font-size: 1.6rem;
+            margin-bottom: 1rem;
+        }
+        
+        .accent {
+            color: var(--accent);
+        }
+        
+        .text-secondary {
+            color: var(--text-secondary);
+        }
+        
+        /* Navigation */
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background-color: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--medium-gray);
+            padding: 1rem 2rem;
+        }
+        
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .logo {
+            font-weight: 800;
+            font-size: 1.8rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo span {
+            color: var(--accent);
+            margin-right: 5px;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+        
+        .nav-links a {
+            color: var(--text);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1rem;
+            transition: all 0.3s;
+            padding: 0.5rem 0;
+            position: relative;
+        }
+        
+        .nav-links a:hover {
+            color: var(--accent);
+        }
+        
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--accent);
+            transition: width 0.3s;
+        }
+        
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+        
+        .active {
+            color: var(--accent) !important;
+        }
+        
+        .active::after {
+            width: 100% !important;
+        }
+        
+        .nav-buttons {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+        
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-block;
+            text-align: center;
+            border: none;
+            font-size: 0.95rem;
+        }
+        
+        .btn-primary {
+            background-color: var(--accent);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: #a0182f;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(196, 30, 58, 0.2);
+        }
+        
+        .btn-secondary {
+            background-color: var(--medium-gray);
+            color: var(--text);
+        }
+        
+        .btn-secondary:hover {
+            background-color: var(--light-gray);
+            transform: translateY(-2px);
+        }
+        
+        .btn-outline {
+            background-color: transparent;
+            color: var(--text);
+            border: 2px solid var(--medium-gray);
+        }
+        
+        .btn-outline:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+            transform: translateY(-2px);
+        }
+        
+        .btn-success {
+            background-color: var(--success);
+            color: white;
+        }
+        
+        .btn-info {
+            background-color: var(--info);
+            color: white;
+        }
+        
+        /* Mobile Navigation */
+        .mobile-nav {
+            display: none;
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 80%;
+            max-width: 400px;
+            height: 100vh;
+            background-color: var(--secondary);
+            z-index: 2000;
+            padding: 2rem;
+            transition: right 0.3s ease;
+            overflow-y: auto;
+        }
+        
+        .mobile-nav.active {
+            right: 0;
+            display: block;
+        }
+        
+        .mobile-nav-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--medium-gray);
+        }
+        
+        .mobile-nav-links {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+        
+        .mobile-nav-links a {
+            color: var(--text);
+            text-decoration: none;
+            font-size: 1.2rem;
+            font-weight: 500;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid var(--medium-gray);
+        }
+        
+        .mobile-nav-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 1999;
+        }
+        
+        .mobile-nav-overlay.active {
+            display: block;
+        }
+        
+        /* Hero Section */
+        .hero {
+            padding: 5rem 2rem;
+            background: linear-gradient(135deg, rgba(10, 10, 10, 0.9) 0%, rgba(26, 26, 26, 0.8) 100%), url('https://images.unsplash.com/photo-1589256469067-ea99122bbdc4?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80');
+            background-size: cover;
+            background-position: center;
+            text-align: center;
+            border-bottom: 1px solid var(--medium-gray);
+        }
+        
+        .hero h1 {
+            max-width: 900px;
+            margin: 0 auto 1.5rem;
+        }
+        
+        .hero p {
+            max-width: 700px;
+            margin: 0 auto 2.5rem;
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+        }
+        
+        .hero-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+        
+        /* Main Content */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+        
+        .section {
+            padding: 5rem 0;
+        }
+        
+        .section-alt {
+            background-color: var(--section-bg);
+            border-top: 1px solid var(--medium-gray);
+            border-bottom: 1px solid var(--medium-gray);
+        }
+        
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .section-subtitle {
+            color: var(--accent);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.9rem;
+        }
+        
+        .section-description {
+            max-width: 700px;
+            margin: 0 auto;
+            color: var(--text-secondary);
+        }
+        
+        /* Cards */
+        .card {
+            background-color: var(--card-bg);
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid var(--medium-gray);
+            transition: all 0.3s;
+            height: 100%;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            border-color: var(--accent);
+        }
+        
+        .card-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--medium-gray);
+        }
+        
+        .card-content {
+            padding: 1.5rem;
+        }
+        
+        /* Community Section */
+        .topic-rooms {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+        
+        .room-icon {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: var(--accent);
+            width: 60px;
+            height: 60px;
+            background-color: rgba(196, 30, 58, 0.1);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .room-stats {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 1.5rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--medium-gray);
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+        
+        /* Leaderboard */
+        .leaderboard-section {
+            background-color: var(--card-bg);
+            padding: 2rem;
+            border-radius: 10px;
+            margin-top: 3rem;
+        }
+        
+        .leaderboard-tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid var(--medium-gray);
+            padding-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .leaderboard-tab {
+            padding: 0.5rem 1.5rem;
+            background: transparent;
+            border: 1px solid var(--medium-gray);
+            color: var(--text);
+            cursor: pointer;
+            font-weight: 500;
+            border-radius: 30px;
+            transition: all 0.3s;
+        }
+        
+        .leaderboard-tab.active {
+            background-color: var(--accent);
+            color: white;
+            border-color: var(--accent);
+        }
+        
+        .leaderboard-tab:hover:not(.active) {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+        
+        .leaderboard-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+        
+        .leaderboard-item {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+        
+        .leaderboard-item:hover {
+            background-color: rgba(255, 255, 255, 0.08);
+            transform: translateX(5px);
+        }
+        
+        .rank {
+            font-weight: 800;
+            font-size: 1.2rem;
+            width: 40px;
+            color: var(--accent);
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+            flex: 1;
+            gap: 1rem;
+        }
+        
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent), #a0182f);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: white;
+        }
+        
+        .badges {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+        
+        .badge {
+            background-color: var(--medium-gray);
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        
+        .badge.gold {
+            background-color: #FFD700;
+            color: #000;
+        }
+        
+        .badge.silver {
+            background-color: #C0C0C0;
+            color: #000;
+        }
+        
+        .badge.bronze {
+            background-color: #CD7F32;
+            color: #000;
+        }
+        
+        .badge.red {
+            background-color: var(--accent);
+            color: white;
+        }
+        
+        .badge.info {
+            background-color: var(--info);
+            color: white;
+        }
+        
+        .badge.success {
+            background-color: var(--success);
+            color: white;
+        }
+        
+        .badge.warning {
+            background-color: var(--warning);
+            color: #000;
+        }
+        
+        /* Merchandise Section */
+        .merch-hero {
+            background: linear-gradient(135deg, rgba(20, 20, 20, 0.9) 0%, rgba(30, 30, 30, 0.9) 100%), url('https://images.unsplash.com/photo-1558769132-cb1a40ed0ada?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80');
+            background-size: cover;
+            background-position: center;
+            padding: 4rem 2rem;
+            text-align: center;
+            border-radius: 10px;
+            margin-bottom: 3rem;
+            border: 1px solid var(--medium-gray);
+        }
+        
+        .merch-hero h2 {
+            font-size: 2.8rem;
+            margin-bottom: 1rem;
+        }
+        
+        .countdown {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+        }
+        
+        .countdown-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: var(--card-bg);
+            padding: 1.2rem;
+            border-radius: 10px;
+            min-width: 80px;
+            border: 1px solid var(--medium-gray);
+        }
+        
+        .countdown-value {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--accent);
+        }
+        
+        .countdown-label {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .product-card {
+            background-color: var(--card-bg);
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid var(--medium-gray);
+            transition: all 0.3s;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            border-color: var(--accent);
+        }
+        
+        .product-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background-color: var(--accent);
+            color: white;
+            padding: 0.35rem 0.75rem;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.8rem;
+            z-index: 2;
+        }
+        
+        .product-image {
+            height: 280px;
+            background-color: #2a2a2a;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+        
+        .product-card:hover .product-image img {
+            transform: scale(1.05);
+        }
+        
+        .product-image-placeholder {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            text-align: center;
+            padding: 2rem;
+        }
+        
+        .product-image-placeholder i {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: var(--medium-gray);
+        }
+        
+        .product-content {
+            padding: 1.5rem;
+        }
+        
+        .product-title {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .product-price {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--accent);
+            margin-bottom: 1rem;
+        }
+        
+        .stock-indicator {
+            font-size: 0.9rem;
+            color: var(--warning);
+            margin-bottom: 1rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        /* About Section */
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+        
+        .about-image {
+            width: 100%;
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid var(--medium-gray);
+        }
+        
+        .about-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        
+        .about-text h3 {
+            margin-top: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--accent);
+        }
+        
+        /* Discussions Section */
+        .discussion-filters {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .filter-btn {
+            padding: 0.5rem 1.5rem;
+            background-color: var(--card-bg);
+            border: 1px solid var(--medium-gray);
+            color: var(--text);
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+        
+        .filter-btn.active {
+            background-color: var(--accent);
+            color: white;
+            border-color: var(--accent);
+        }
+        
+        .filter-btn:hover:not(.active) {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+        
+        .discussion-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        .discussion-card {
+            background-color: var(--card-bg);
+            padding: 1.5rem;
+            border-radius: 10px;
+            border: 1px solid var(--medium-gray);
+            transition: all 0.3s;
+        }
+        
+        .discussion-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-2px);
+        }
+        
+        .discussion-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+        
+        .discussion-meta {
+            display: flex;
+            gap: 1rem;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            flex-wrap: wrap;
+        }
+        
+        .discussion-stats {
+            display: flex;
+            gap: 1.5rem;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--medium-gray);
+            color: var(--text-secondary);
+        }
+        
+        /* Forms */
+        .form-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: var(--card-bg);
+            padding: 3rem;
+            border-radius: 10px;
+            border: 1px solid var(--medium-gray);
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--text);
+        }
+        
+        .form-input, .form-textarea, .form-select {
+            width: 100%;
+            padding: 0.85rem 1rem;
+            background-color: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--medium-gray);
+            border-radius: 6px;
+            color: var(--text);
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+        
+        .form-input:focus, .form-textarea:focus, .form-select:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(196, 30, 58, 0.1);
+        }
+        
+        .form-textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+        
+        .form-checkbox {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .form-checkbox input {
+            width: 18px;
+            height: 18px;
+        }
+        
+        /* Page Sections (initially hidden) */
+        .page-section {
+            display: none;
+        }
+        
+        .page-section.active {
+            display: block;
+        }
+        
+        /* Footer */
+        footer {
+            padding: 4rem 2rem 2rem;
+            background-color: var(--secondary);
+            border-top: 1px solid var(--medium-gray);
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .footer-logo {
+            font-size: 1.8rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+        
+        .footer-links h4 {
+            margin-bottom: 1.5rem;
+            font-size: 1.2rem;
+            color: var(--text);
+        }
+        
+        .footer-links ul {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 0.75rem;
+        }
+        
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: var(--accent);
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 3rem;
+            margin-top: 3rem;
+            border-top: 1px solid var(--medium-gray);
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+        
+        /* Book Special */
+        .book-special {
+            background: linear-gradient(135deg, rgba(30, 30, 30, 0.9) 0%, rgba(40, 40, 40, 0.9) 100%);
+            padding: 3rem;
+            border-radius: 10px;
+            margin: 3rem 0;
+            border: 1px solid var(--medium-gray);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .book-cover {
+            width: 200px;
+            height: 300px;
+            background: linear-gradient(135deg, #000000 0%, #2a2a2a 100%);
+            border-radius: 6px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            margin-right: 2rem;
+            float: left;
+            border: 1px solid var(--medium-gray);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .book-cover h3 {
+            font-size: 1.8rem;
+            text-align: center;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+        
+        .book-cover p {
+            text-align: center;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+        
+        .book-content {
+            overflow: hidden;
+        }
+        
+        .book-content h3 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+        
+        .book-features {
+            margin-top: 1.5rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+        
+        .book-feature {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-secondary);
+        }
+        
+        .book-feature i {
+            color: var(--accent);
+        }
+        
+        /* Stats & Metrics */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 3rem;
+        }
+        
+        .stat-card {
+            background-color: var(--card-bg);
+            padding: 1.5rem;
+            border-radius: 10px;
+            text-align: center;
+            border: 1px solid var(--medium-gray);
+        }
+        
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        /* Pagination */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 3rem;
+        }
+        
+        .page-link {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--card-bg);
+            border: 1px solid var(--medium-gray);
+            color: var(--text);
+            border-radius: 6px;
+            text-decoration: none;
+            transition: all 0.3s;
+            font-weight: 600;
+        }
+        
+        .page-link:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+        
+        .page-link.active {
+            background-color: var(--accent);
+            color: white;
+            border-color: var(--accent);
+        }
+        
+        /* Mobile Responsiveness */
+        @media (max-width: 1024px) {
+            .about-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .book-cover {
+                float: none;
+                margin: 0 auto 2rem;
+            }
+            
+            .book-content {
+                text-align: center;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+            
+            h2 {
+                font-size: 2rem;
+            }
+            
+            .nav-links, .nav-buttons {
+                display: none;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .topic-rooms, .products-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .countdown {
+                flex-wrap: wrap;
+            }
+            
+            .section-header {
+                text-align: left;
+            }
+            
+            .form-container {
+                padding: 2rem;
+            }
+            
+            .merch-hero h2 {
+                font-size: 2.2rem;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+        }
+        
+        /* Animation */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.6s ease-out forwards;
+        }
+        
+        .hidden {
+            opacity: 0;
+        }
+        
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            padding: 1rem;
+        }
+        
+        .modal-content {
+            background-color: var(--card-bg);
+            padding: 2rem;
+            border-radius: 10px;
+            max-width: 500px;
+            width: 100%;
+            position: relative;
+            max-height: 90vh;
+            overflow-y: auto;
+            border: 1px solid var(--medium-gray);
+        }
+        
+        .close-modal {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            color: var(--text);
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+        
+        .close-modal:hover {
+            color: var(--accent);
+        }
+        
+        .modal-title {
+            margin-bottom: 1.5rem;
+            color: var(--accent);
+        }
+        
+        /* Tabs */
+        .tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid var(--medium-gray);
+            padding-bottom: 0.5rem;
+            flex-wrap: wrap;
+        }
+        
+        .tab {
+            padding: 0.75rem 1.5rem;
+            background: transparent;
+            border: none;
+            color: var(--text);
+            cursor: pointer;
+            font-weight: 600;
+            border-radius: 6px 6px 0 0;
+            transition: all 0.3s;
+        }
+        
+        .tab.active {
+            background-color: var(--accent);
+            color: white;
+        }
+        
+        .tab:hover:not(.active) {
+            color: var(--accent);
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Navigation -->
+    <header>
+        <div class="nav-container">
+            <div class="logo">
+                <span>KIBE</span> NATION
+            </div>
+            <div class="nav-links">
+                <a href="#home" class="nav-link active" data-page="home">Home</a>
+                <a href="#community" class="nav-link" data-page="community">Community</a>
+                <a href="#merch" class="nav-link" data-page="merch">Merch</a>
+                <a href="#about" class="nav-link" data-page="about">About</a>
+                <a href="#discussions" class="nav-link" data-page="discussions">Discussions</a>
+                <a href="#join" class="nav-link" data-page="join">Join</a>
+            </div>
+            <div class="nav-buttons">
+                <a href="#login" class="btn btn-outline login-btn">Sign In</a>
+            </div>
+            <button class="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Mobile Navigation Menu -->
+    <div class="mobile-nav-overlay"></div>
+    <div class="mobile-nav">
+        <div class="mobile-nav-header">
+            <div class="logo">
+                <span>KIBE</span> NATION
+            </div>
+            <button class="close-mobile-nav">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="mobile-nav-links">
+            <a href="#home" class="mobile-nav-link active" data-page="home">Home</a>
+            <a href="#community" class="mobile-nav-link" data-page="community">Community</a>
+            <a href="#merch" class="mobile-nav-link" data-page="merch">Merchandise</a>
+            <a href="#about" class="mobile-nav-link" data-page="about">About Kibe</a>
+            <a href="#discussions" class="mobile-nav-link" data-page="discussions">Discussions</a>
+            <a href="#join" class="mobile-nav-link" data-page="join">Join Tribe</a>
+            <a href="#login" class="mobile-nav-link login-btn" data-page="login">Sign In</a>
+        </div>
+        <div style="margin-top: 2rem; padding-top: 2rem; border-top: 1px solid var(--medium-gray);">
+            <p style="color: var(--text-secondary); margin-bottom: 1rem;">Connect with the tribe:</p>
+            <div class="social-links" style="display: flex; gap: 1rem;">
+                <a href="#" style="color: var(--text-secondary); font-size: 1.5rem;"><i class="fab fa-youtube"></i></a>
+                <a href="#" style="color: var(--text-secondary); font-size: 1.5rem;"><i class="fab fa-twitter"></i></a>
+                <a href="#" style="color: var(--text-secondary); font-size: 1.5rem;"><i class="fab fa-instagram"></i></a>
+                <a href="#" style="color: var(--text-secondary); font-size: 1.5rem;"><i class="fab fa-discord"></i></a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Home Page -->
+    <section id="home-page" class="page-section active">
+        <div class="hero" id="home">
+            <div class="container">
+                <h1>BUILD YOUR IDENTITY. <span class="accent">WEAR YOUR MINDSET.</span></h1>
+                <p class="text-secondary">Join the tribe that challenges mainstream narratives. Engage in unfiltered discussions on masculinity, relationships, and society. Wear the identity that sets you apart.</p>
+                <div class="hero-buttons">
+                    <a href="#community" class="btn btn-primary nav-change" data-page="community">Explore Community</a>
+                    <a href="#merch" class="btn btn-outline nav-change" data-page="merch">Shop Latest Drop</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Community Preview -->
+        <section class="section">
+            <div class="container">
+                <div class="section-header">
+                    <div class="section-subtitle">Tribe Hub</div>
+                    <h2>Community & Identity Rooms</h2>
+                    <p class="section-description">Join topic-based discussions that define the tribe's culture. Engage with like-minded individuals challenging mainstream narratives.</p>
+                </div>
+                
+                <div class="topic-rooms">
+                    <!-- Relationships Room -->
+                    <div class="card fade-in">
+                        <div class="card-header">
+                            <div class="room-icon">
+                                <i class="fas fa-heart"></i>
+                            </div>
+                            <h3>Relationships</h3>
+                        </div>
+                        <div class="card-content">
+                            <p class="text-secondary">Dating dynamics, communication, modern relationship struggles. Episode-based discussions and advice.</p>
+                            <div class="room-stats">
+                                <div class="stat">
+                                    <strong>4.2k</strong> Active
+                                </div>
+                                <div class="stat">
+                                    <strong>12.5k</strong> Discussions
+                                </div>
+                            </div>
+                            <a href="#community" class="btn btn-outline nav-change" data-page="community" style="width: 100%; margin-top: 1rem;">Enter Room</a>
+                        </div>
+                    </div>
+                    
+                    <!-- Masculinity Room -->
+                    <div class="card fade-in">
+                        <div class="card-header">
+                            <div class="room-icon">
+                                <i class="fas fa-fist-raised"></i>
+                            </div>
+                            <h3>Masculinity</h3>
+                        </div>
+                        <div class="card-content">
+                            <p class="text-secondary">Identity, growth & discipline, emotional intelligence, cultural expectations. Building better men.</p>
+                            <div class="room-stats">
+                                <div class="stat">
+                                    <strong>3.8k</strong> Active
+                                </div>
+                                <div class="stat">
+                                    <strong>9.7k</strong> Discussions
+                                </div>
+                            </div>
+                            <a href="#community" class="btn btn-outline nav-change" data-page="community" style="width: 100%; margin-top: 1rem;">Enter Room</a>
+                        </div>
+                    </div>
+                    
+                    <!-- Society Room -->
+                    <div class="card fade-in">
+                        <div class="card-header">
+                            <div class="room-icon">
+                                <i class="fas fa-globe"></i>
+                            </div>
+                            <h3>Society</h3>
+                        </div>
+                        <div class="card-content">
+                            <p class="text-secondary">Social norms, modern culture, media & trends, community debates. Challenge the mainstream.</p>
+                            <div class="room-stats">
+                                <div class="stat">
+                                    <strong>5.1k</strong> Active
+                                </div>
+                                <div class="stat">
+                                    <strong>15.3k</strong> Discussions
+                                </div>
+                            </div>
+                            <a href="#community" class="btn btn-outline nav-change" data-page="community" style="width: 100%; margin-top: 1rem;">Enter Room</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="text-align: center; margin-top: 3rem;">
+                    <a href="#community" class="btn btn-primary nav-change" data-page="community">Explore All Community Rooms</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Stats Section -->
+        <section class="section section-alt">
+            <div class="container">
+                <div class="section-header">
+                    <div class="section-subtitle">Tribe Metrics</div>
+                    <h2>By The Numbers</h2>
+                    <p class="section-description">Our growing community of individuals challenging mainstream narratives.</p>
+                </div>
+                
+                <div class="stats-grid">
+                    <div class="stat-card fade-in">
+                        <div class="stat-value">28.7k+</div>
+                        <div class="stat-label">Tribe Members</div>
+                    </div>
+                    <div class="stat-card fade-in">
+                        <div class="stat-value">45.2k+</div>
+                        <div class="stat-label">Discussions</div>
+                    </div>
+                    <div class="stat-card fade-in">
+                        <div class="stat-value">12.4k+</div>
+                        <div class="stat-label">Merch Items Sold</div>
+                    </div>
+                    <div class="stat-card fade-in">
+                        <div class="stat-value">4.7k+</div>
+                        <div class="stat-label">Podcast Episodes</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Merch Preview -->
+        <section class="section">
+            <div class="container">
+                <div class="section-header">
+                    <div class="section-subtitle">Featured Product</div>
+                    <h2>28 Commandments to Manhood</h2>
+                    <p class="section-description">The definitive guide to modern masculinity by Andrew Kibe</p>
+                </div>
+                
+                <!-- Book Special -->
+                <div class="book-special fade-in">
+                    <div class="book-cover">
+                        <h3>28</h3>
+                        <p>COMMANDMENTS</p>
+                        <p>TO</p>
+                        <h3>MANHOOD</h3>
+                        <p style="margin-top: 1rem; font-size: 0.8rem;">Andrew Kibe</p>
+                    </div>
+                    <div class="book-content">
+                        <h3>The Blueprint for Modern Masculinity</h3>
+                        <p class="text-secondary">In this groundbreaking book, Andrew Kibe breaks down the 28 essential principles every man needs to navigate today's complex world. From relationships and career to personal discipline and societal expectations, this is the unfiltered truth about what it means to be a man in the modern age.</p>
+                        
+                        <div class="book-features">
+                            <div class="book-feature">
+                                <i class="fas fa-check-circle"></i>
+                                <span>28 actionable principles</span>
+                            </div>
+                            <div class="book-feature">
+                                <i class="fas fa-check-circle"></i>
+                                <span>Real-world examples</span>
+                            </div>
+                            <div class="book-feature">
+                                <i class="fas fa-check-circle"></i>
+                                <span>Relationship dynamics</span>
+                            </div>
+                            <div class="book-feature">
+                                <i class="fas fa-check-circle"></i>
+                                <span>Career & financial advice</span>
+                            </div>
+                        </div>
+                        
+                        <div style="margin-top: 2rem; display: flex; gap: 1rem; flex-wrap: wrap; align-items: center;">
+                            <div>
+                                <div class="product-price">$29.99</div>
+                                <div class="stock-indicator">
+                                    <i class="fas fa-exclamation-circle"></i>
+                                    Limited signed copies available
+                                </div>
+                            </div>
+                            <div>
+                                <button class="btn btn-primary" onclick="openModal('book')">Pre-order Now</button>
+                                <button class="btn btn-outline" onclick="openModal('book-preview')">Preview Chapter</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="text-align: center; margin-top: 3rem;">
+                    <a href="#merch" class="btn btn-secondary nav-change" data-page="merch">View All Products</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Leaderboard Preview -->
+        <section class="section section-alt">
+            <div class="container">
+                <div class="section-header">
+                    <div class="section-subtitle">Top Contributors</div>
+                    <h2>Tribe Leaderboard</h2>
+                    <p class="section-description">Status & recognition for the most active tribe members</p>
+                </div>
+                
+                <div class="leaderboard-section">
+                    <div class="tabs">
+                        <button class="tab active" data-tab="weekly">Weekly</button>
+                        <button class="tab" data-tab="monthly">Monthly</button>
+                        <button class="tab" data-tab="alltime">All Time</button>
+                    </div>
+                    
+                    <div class="tab-content active" id="weekly-tab">
+                        <div class="leaderboard-list">
+                            <div class="leaderboard-item">
+                                <div class="rank">1</div>
+                                <div class="user-info">
+                                    <div class="user-avatar">JM</div>
+                                    <div>
+                                        <h4>James_Macharia</h4>
+                                        <div class="badges">
+                                            <span class="badge gold">Top Contributor</span>
+                                            <span class="badge red">Debate Champion</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="points">1,245 pts</div>
+                            </div>
+                            
+                            <div class="leaderboard-item">
+                                <div class="rank">2</div>
+                                <div class="user-info">
+                                    <div class="user-avatar">AK</div>
+                                    <div>
+                                        <h4>Alpha_Kenyan</h4>
+                                        <div class="badges">
+                                            <span class="badge success">Voice of Tribe</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="points">987 pts</div>
+                            </div>
+                            
+                            <div class="leaderboard-item">
+                                <div class="rank">3</div>
+                                <div class="user-info">
+                                    <div class="user-avatar">TM</div>
+                                    <div>
+                                        <h4>Truth_Monger</h4>
+                                        <div class="badges">
+                                            <span class="badge warning">OG Member</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="points">845 pts</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div style="text-align: center; margin-top: 2rem;">
+                        <a href="#community" class="btn btn-outline nav-change" data-page="community">View Full Leaderboard</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </section>
+
+    <!-- Community Page -->
+    <section id="community-page" class="page-section">
+        <div class="hero" style="background: linear-gradient(135deg, rgba(10, 10, 10, 0.9) 0%, rgba(26, 26, 26, 0.8) 100%), url('https://images.unsplash.com/photo-1535223289827-42f1e9919769?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80');">
+            <div class="container">
+                <h1>THE <span class="accent">TRIBE</span> COMMUNITY</h1>
+                <p class="text-secondary">Where fans become family. Engage in unfiltered discussions, earn your status, and build your identity with like-minded individuals.</p>
+            </div>
+        </div>
+
+        <section class="section">
+            <div class="container">
+                <div class="section-header">
+                    <div class="section-subtitle">Identity Rooms</div>
+                    <h2>Topic-Based Discussions</h2>
+                    <p class="section-description">Each room represents a sub-culture within the tribe. Join conversations that matter to you.</p>
+                </div>
+                
+                <div class="topic-rooms">
+                    <!-- Relationships Room -->
+                    <div class="card fade-in">
+                        <div class="card-header">
+                            <div class="room-icon">
+                                <i class="fas fa-heart"></i>
+                            </div>
+                            <h3>Relationships</h3>
+                        </div>
+                        <div class="card-content">
+                            <p class="text-secondary"><strong>Focus:</strong> Dating dynamics, communication, modern relationship struggles.</p>
+                            <p class="text-secondary"><strong>Rules:</strong> Respectful debate encouraged, no personal attacks.</p>
+                            <div class="room-stats">
+                                <div class="stat">
+                                    <strong>4.2k</strong> Active
+                                </div>
+                                <div class="stat">
+                                    <strong>12.5k</strong> Discussions
+                                </div>
+                            </div>
+                            <button class="btn btn-outline" style="width: 100%; margin-top: 1rem;">Enter Room</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Masculinity Room -->
+                    <div class="card fade-in">
+                        <div class="card-header">
+                            <div class="room-icon">
+                                <i class="fas fa-fist-raised"></i>
+                            </div>
+                            <h3>Masculinity</h3>
+                        </div>
+                        <div class="card-content">
+                            <p class="text-secondary"><strong>Focus:</strong> Identity, growth & discipline, emotional intelligence.</p>
+                            <p class="text-secondary"><strong>Rules:</strong> Constructive criticism only, share growth journeys.</p>
+                            <div class="room-stats">
+                                <div class="stat">
+                                    <strong>3.8k</strong> Active
+                                </div>
+                                <div class="stat">
+                                    <strong>9.7k</strong> Discussions
+                                </div>
+                            </div>
+                            <button class="btn btn-outline" style="width: 100%; margin-top: 1rem;">Enter Room</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Society Room -->
+                    <div class="card fade-in">
+                        <div class="card-header">
+                            <div class="room-icon">
+                                <i class="fas fa-globe"></i>
+                            </div>
+                            <h3>Society</h3>
+                        </div>
+                        <div class="card-content">
+                            <p class="text-secondary"><strong>Focus:</strong> Social norms, modern culture, media & trends.</p>
+                            <p class="text-secondary"><strong>Rules:</strong> Evidence-based arguments, challenge narratives respectfully.</p>
+                            <div class="room-stats">
+                                <div class="stat">
+                                    <strong>5.1k</strong> Active
+                                </div>
+                                <div class="stat">
+                                    <strong>15.3k</strong> Discussions
+                                </div>
+                            </div>
+                            <button class="btn btn-outline" style="width: 100%; margin-top: 1rem;">Enter Room</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Self-Improvement Room -->
+                    <div class="card fade-in">
+                        <div class="card-header">
+                            <div class="room-icon">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                            <h3>Self-Improvement</h3>
+                        </div>
+                        <div class="card-content">
+                            <p class="text-secondary"><strong>Focus:</strong> Fitness, finance, career, mental health, discipline.</p>
+                            <p class="text-secondary"><strong>Rules:</strong> Share actionable advice, progress updates encouraged.</p>
+                            <div class="room-stats">
+                                <div class="stat">
+                                    <strong>2.9k</strong> Active
+                                </div>
+                                <div class="stat">
+                                    <strong>7.8k</strong> Discussions
+                                </div>
+                            </div>
+                            <button class="btn btn-outline" style="width: 100%; margin-top: 1rem;">Enter Room</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Media & Culture Room -->
+                    <div class="card fade-in">
+                        <div class="card-header">
+                            <div class="room-icon">
+                                <i class="fas fa-film"></i>
+                            </div>
+                            <h3>Media & Culture</h3>
+                        </div>
+                        <div class="card-content">
+                            <p class="text-secondary"><strong>Focus:</strong> Film, music, podcasts, social media trends.</p>
+                            <p class="text-secondary"><strong>Rules:</strong> Critical analysis welcome, no blind celebrity worship.</p>
+                            <div class="room-stats">
+                                <div class="stat">
+                                    <strong>3.5k</strong> Active
+                                </div>
+                                <div class="stat">
+                                    <strong>10.2k</strong> Discussions
+                                </div>
+                            </div>
+                            <button class="btn btn-outline" style="width: 100%; margin-top: 1rem;">Enter Room</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Tribe Announcements -->
+                    <div class="card fade-in">
+                        <div class="card-header" style="background-color: rgba(196, 30, 58, 0.1);">
+                            <div class="room-icon">
+                                <i class="fas fa-bullhorn"></i>
+                            </div>
+                            <h3>Tribe Announcements</h3>
+                        </div>
+                        <div class="card-content">
+                            <p class="text-secondary"><strong>Focus:</strong> Official updates, events, merch drops, live podcast announcements.</p>
+                            <p class="text-secondary"><strong>Rules:</strong> Read-only for members, announcements by moderators only.</p>
+                            <div class="room-stats">
+                                <div class="stat">
+                                    <strong>28.7k</strong> Members
+                                </div>
+                                <div class="stat">
+                                    <strong>312</strong> Announcements
+                                </div>
+                            </div>
+                            <button class="btn btn-outline" style="width: 100%; margin-top: 1rem;">View Announcements</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Leaderboard Section -->
+        <section class="section section-alt">
+            <div class="container">
+                <div class="section-header">
+                    <div class="section-subtitle">Status & Recognition</div>
+                    <h2>Tribe Leaderboard</h2>
+                    <p class="section-description">Earn your place among the most active and influential tribe members</p>
+                </div>
+                
+                <div class="leaderboard-section">
+                    <div class="tabs">
+                        <button class="tab active" data-tab="weekly">Weekly</button>
+                        <button class="tab" data-tab="monthly">Monthly</button>
+                        <button class="tab" data-tab="alltime">All Time</button>
+                    </div>
+                    
+                    <div class="tab-content active" id="weekly-tab-full">
+                        <div class="leaderboard-list">
+                            <div class="leaderboard-item">
+                                <div class="rank">1</div>
+                                <div class="user-info">
+                                    <div class="user-avatar">JM</div>
+                                    <div>
+                                        <h4>James_Macharia</h4>
+                                        <div class="badges">
+                                            <span class="badge gold">Top Contributor</span>
+                                            <span class="badge red">Debate Champion</span>
+                                            <span class="badge warning">OG Member</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="points">1,245 pts</div>
+                            </div>
+                            
+                            <div class="leaderboard-item">
+                                <div class="rank">2</div>
+                                <div class="user-info">
+                                    <div class="user-avatar">AK</div>
+                                    <div>
+                                        <h4>Alpha_Kenyan</h4>
+                                        <div class="badges">
+                                            <span class="badge success">Voice of Tribe</span>
+                                            <span class="badge red">Debate Champion</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="points">987 pts</div>
+                            </div>
+                            
+                            <div class="leaderboard-item">
+                                <div class="rank">3</div>
+                                <div class="user-info">
+                                    <div class="user-avatar">TM</div>
+                                    <div>
+                                        <h4>Truth_Monger</h4>
+                                        <div class="badges">
+                                            <span class="badge warning">OG Member</span>
+                                            <span class="badge red">Debate Champion</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="points">845 pts</div>
+                            </div>
+                            
+                            <div class="leaderboard-item">
+                                <div class="rank">4</div>
+                                <div class="user-info">
+                                    <div class="user-avatar">RM</div>
+                                    <div>
+                                        <h4>RealMan_254</h4>
+                                        <div class="badges">
+                                            <span class="badge success">Voice of Tribe</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="points">722 pts</div>
+                            </div>
+                            
+                            <div class="leaderboard-item">
+                                <div class="rank">5</div>
+                                <div class="user-info">
+                                    <div class="user-avatar">KK</div>
+                                    <div>
+                                        <h4>KibeDisciple</h4>
+                                        <div class="badges">
+                                            <span class="badge info">Early Supporter</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="points">689 pts</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div style="text-align: center; margin-top: 2rem;">
+                        <p class="text-secondary">Want to climb the leaderboard? Engage in discussions, create quality posts, and participate in polls!</p>
+                        <button class="btn btn-outline" style="margin-top: 1rem;" onclick="openModal('badges-info')">Learn About Badges</button>
+                    </div>
+                </div>
+                
+                <!-- Badges Grid -->
+                <div style="margin-top: 4rem;">
+                    <h3 style="text-align: center; margin-bottom: 2rem;">Available Badges</h3>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem;">
+                        <div class="card">
+                            <div class="card-content" style="text-align: center;">
+                                <div style="font-size: 2rem; color: var(--accent); margin-bottom: 1rem;">
+                                    <i class="fas fa-crown"></i>
+                                </div>
+                                <h4>Top Contributor</h4>
+                                <p class="text-secondary">Awarded to members with the most liked posts and comments</p>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-content" style="text-align: center;">
+                                <div style="font-size: 2rem; color: var(--accent); margin-bottom: 1rem;">
+                                    <i class="fas fa-comments"></i>
+                                </div>
+                                <h4>Debate Champion</h4>
+                                <p class="text-secondary">For respectful, evidence-based debates and discussions</p>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-content" style="text-align: center;">
+                                <div style="font-size: 2rem; color: var(--accent); margin-bottom: 1rem;">
+                                    <i class="fas fa-bullhorn"></i>
+                                </div>
+                                <h4>Voice of the Tribe</h4>
+                                <p class="text-secondary">For influential perspectives that shape community discussions</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </section>
+
+    <!-- Merchandise Page -->
+    <section id="merch-page" class="page-section">
+        <div class="hero" style="background: linear-gradient(135deg, rgba(10, 10, 10, 0.9) 0%, rgba(26, 26, 26, 0.8) 100%), url('https://images.unsplash.com/photo-1441986300917-64674bd600d8?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80');">
+            <div class="container">
+                <h1>WEAR YOUR <span class="accent">MINDSET</span></h1>
+                <p class="text-secondary">This isn't just merch — it's membership through fashion. Limited drops, exclusive access, identity you can wear.</p>
+            </div>
+        </div>
+
+        <section class="section">
+            <div class="container">
+                <!-- Book Special -->
+                <div class="book-special fade-in">
+                    <div class="book-cover">
+                        <h3>28</h3>
+                        <p>COMMANDMENTS</p>
+                        <p>TO</p>
+                        <h3>MANHOOD</h3>
+                        <p style="margin-top: 1rem; font-size: 0.8rem;">Andrew Kibe</p>
+                    </div>
+                    <div class="book-content">
+                        <h3>28 Commandments to Manhood</h3>
+                        <p class="text-secondary"><strong>The definitive guide to modern masculinity by Andrew Kibe</strong></p>
+                        <p class="text-secondary">In this groundbreaking book, Andrew Kibe breaks down the 28 essential principles every man needs to navigate today's complex world. From relationships and career to personal discipline and societal expectations, this is the unfiltered truth about what it means to be a man in the modern age.</p>
+                        
+                        <div class="book-features">
+                            <div class="book-feature">
+                                <i class="fas fa-check-circle"></i>
+                                <span>28 actionable principles</span>
+                            </div>
+                            <div class="book-feature">
+                                <i class="fas fa-check-circle"></i>
+                                <span>Real-world examples</span>
+                            </div>
+                            <div class="book-feature">
+                                <i class="fas fa-check-circle"></i>
+                                <span>Relationship dynamics</span>
+                            </div>
+                            <div class="book-feature">
+                                <i class="fas fa-check-circle"></i>
+                                <span>Career & financial advice</span>
+                            </div>
+                        </div>
+                        
+                        <div style="margin-top: 2rem; display: flex; gap: 1rem; flex-wrap: wrap; align-items: center;">
+                            <div>
+                                <div class="product-price">$29.99</div>
+                                <div class="stock-indicator">
+                                    <i class="fas fa-exclamation-circle"></i>
+                                    Limited signed copies available
+                                </div>
+                            </div>
+                            <div>
+                                <button class="btn btn-primary" onclick="openModal('book')">Pre-order Now</button>
+                                <button class="btn btn-outline" onclick="openModal('book-preview')">Preview Chapter</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="section-header" style="margin-top: 4rem;">
+                    <div class="section-subtitle">Limited Drops</div>
+                    <h2>Current Collection</h2>
+                    <p class="section-description">Wearable identity for the tribe. Limited drops with exclusive access for members.</p>
+                </div>
+                
+                <!-- Countdown Timer -->
+                <div class="merch-hero">
+                    <h2>DROP CLOSES IN</h2>
+                    <div class="countdown">
+                        <div class="countdown-item">
+                            <div class="countdown-value" id="merch-days">03</div>
+                            <div class="countdown-label">Days</div>
+                        </div>
+                        <div class="countdown-item">
+                            <div class="countdown-value" id="merch-hours">12</div>
+                            <div class="countdown-label">Hours</div>
+                        </div>
+                        <div class="countdown-item">
+                            <div class="countdown-value" id="merch-minutes">45</div>
+                            <div class="countdown-label">Minutes</div>
+                        </div>
+                        <div class="countdown-item">
+                            <div class="countdown-value" id="merch-seconds">22</div>
+                            <div class="countdown-label">Seconds</div>
+                        </div>
+                    </div>
+                    <p class="stock-indicator" style="justify-content: center;">
+                        <i class="fas fa-fire"></i>
+                        Only 47 items left in stock
+                    </p>
+                </div>
+                
+                <div class="products-grid">
+                    <!-- Product 1 - Unfiltered Truth Hoodie -->
+                    <div class="product-card fade-in">
+                        <div class="product-badge">LIMITED</div>
+                        <div class="product-image">
+                            <!-- Replace this img src with your hoodie image -->
+                            <img src="https://images.unsplash.com/photo-1556821840-3a63f95609a7?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80" alt="Unfiltered Truth Hoodie">
+                            <!-- Fallback placeholder -->
+                            <div class="product-image-placeholder" style="display: none;">
+                                <i class="fas fa-hoodie"></i>
+                                <span>Add hoodie image</span>
+                            </div>
+                        </div>
+                        <div class="product-content">
+                            <h3 class="product-title">Unfiltered Truth Hoodie</h3>
+                            <p class="text-secondary">Black premium hoodie with bold red typography</p>
+                            <div class="product-price">$49.99</div>
+                            <div class="stock-indicator">
+                                <i class="fas fa-box"></i>
+                                Only 23 left
+                            </div>
+                            <button class="btn btn-primary" style="width: 100%;" onclick="openModal('hoodie')">Add to Cart</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Product 2 - Mindset Cap -->
+                    <div class="product-card fade-in">
+                        <div class="product-badge">MEMBERS ONLY</div>
+                        <div class="product-image">
+                            <!-- Replace this img src with your cap image -->
+                            <img src="https://images.unsplash.com/photo-1588850561407-ed78c282e89b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80" alt="Mindset Cap">
+                            <!-- Fallback placeholder -->
+                            <div class="product-image-placeholder" style="display: none;">
+                                <i class="fas fa-hat-cowboy"></i>
+                                <span>Add cap image</span>
+                            </div>
+                        </div>
+                        <div class="product-content">
+                            <h3 class="product-title">Mindset Cap</h3>
+                            <p class="text-secondary">Black cap with embroidered tribe symbol</p>
+                            <div class="product-price">$29.99</div>
+                            <div class="stock-indicator">
+                                <i class="fas fa-box"></i>
+                                Only 15 left
+                            </div>
+                            <button class="btn btn-primary" style="width: 100%;" onclick="openModal('cap')">Add to Cart</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Product 3 - Digital Identity Pack -->
+                    <div class="product-card fade-in">
+                        <div class="product-badge">DIGITAL</div>
+                        <div class="product-image">
+                            <!-- Replace this img src with your digital pack image -->
+                            <img src="https://images.unsplash.com/photo-1516035069371-29a1b244cc32?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80" alt="Digital Identity Pack">
+                            <!-- Fallback placeholder -->
+                            <div class="product-image-placeholder" style="display: none;">
+                                <i class="fas fa-mobile-alt"></i>
+                                <span>Add digital pack image</span>
+                            </div>
+                        </div>
+                        <div class="product-content">
+                            <h3 class="product-title">Digital Identity Pack</h3>
+                            <p class="text-secondary">Phone wallpapers, quote packs, lock-screen affirmations</p>
+                            <div class="product-price">$9.99</div>
+                            <button class="btn btn-outline" style="width: 100%;" onclick="openModal('digital')">View Details</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Product 4 - Tribe Emblem Tee -->
+                    <div class="product-card fade-in">
+                        <div class="product-badge">NEW</div>
+                        <div class="product-image">
+                            <!-- Replace this img src with your t-shirt image -->
+                            <img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?ixlib=rb-4.0.3&auto=format&fit=crop&w=1480&q=80" alt="Tribe Emblem Tee">
+                            <!-- Fallback placeholder -->
+                            <div class="product-image-placeholder" style="display: none;">
+                                <i class="fas fa-tshirt"></i>
+                                <span>Add t-shirt image</span>
+                            </div>
+                        </div>
+                        <div class="product-content">
+                            <h3 class="product-title">Tribe Emblem Tee</h3>
+                            <p class="text-secondary">Classic black tee with minimalist tribe emblem</p>
+                            <div class="product-price">$24.99</div>
+                            <div class="stock-indicator">
+                                <i class="fas fa-box"></i>
+                                Only 31 left
+                            </div>
+                            <button class="btn btn-primary" style="width: 100%;" onclick="openModal('tee')">Add to Cart</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Product 5 - Morning Truth Mug -->
+                    <div class="product-card fade-in">
+                        <div class="product-image">
+                            <!-- Replace this img src with your mug image -->
+                            <img src="https://images.unsplash.com/photo-1514228742587-6b1558fcf93a?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80" alt="Morning Truth Mug">
+                            <!-- Fallback placeholder -->
+                            <div class="product-image-placeholder" style="display: none;">
+                                <i class="fas fa-mug-hot"></i>
+                                <span>Add mug image</span>
+                            </div>
+                        </div>
+                        <div class="product-content">
+                            <h3 class="product-title">Morning Truth Mug</h3>
+                            <p class="text-secondary">Start your day with unfiltered truth. Ceramic mug with bold quotes.</p>
+                            <div class="product-price">$19.99</div>
+                            <button class="btn btn-primary" style="width: 100%;" onclick="openModal('mug')">Add to Cart</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Product 6 - Tribe Starter Pack -->
+                    <div class="product-card fade-in">
+                        <div class="product-badge">BUNDLE</div>
+                        <div class="product-image">
+                            <!-- Replace this img src with your bundle image -->
+                            <img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80" alt="Tribe Starter Pack">
+                            <!-- Fallback placeholder -->
+                            <div class="product-image-placeholder" style="display: none;">
+                                <i class="fas fa-box"></i>
+                                <span>Add bundle image</span>
+                            </div>
+                        </div>
+                        <div class="product-content">
+                            <h3 class="product-title">Tribe Starter Pack</h3>
+                            <p class="text-secondary">Hoodie + Cap + Book + Digital Pack. Save 25%.</p>
+                            <div class="product-price">$99.99 <span style="text-decoration: line-through; color: var(--text-secondary); font-size: 1rem; margin-left: 0.5rem;">$124.96</span></div>
+                            <div class="stock-indicator">
+                                <i class="fas fa-box"></i>
+                                Only 8 bundles left
+                            </div>
+                            <button class="btn btn-primary" style="width: 100%;" onclick="openModal('bundle')">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Member Benefits -->
+        <section class="section section-alt">
+            <div class="container">
+                <div class="section-header">
+                    <div class="section-subtitle">Exclusive Access</div>
+                    <h2>Tribe Member Benefits</h2>
+                    <p class="section-description">Unlock exclusive perks and rewards as an active member of Kibe Nation</p>
+                </div>
+                
+                <div class="stats-grid">
+                    <div class="stat-card fade-in">
+                        <div style="font-size: 2.5rem; color: var(--accent); margin-bottom: 1rem;">
+                            <i class="fas fa-crown"></i>
+                        </div>
+                        <h3>Early Access</h3>
+                        <p class="text-secondary">48-hour early access to all merch drops and releases</p>
+                    </div>
+                    <div class="stat-card fade-in">
+                        <div style="font-size: 2.5rem; color: var(--accent); margin-bottom: 1rem;">
+                            <i class="fas fa-percentage"></i>
+                        </div>
+                        <h3>Exclusive Discounts</h3>
+                        <p class="text-secondary">15% off all products for active community members</p>
+                    </div>
+                    <div class="stat-card fade-in">
+                        <div style="font-size: 2.5rem; color: var(--accent); margin-bottom: 1rem;">
+                            <i class="fas fa-gift"></i>
+                        </div>
+                        <h3>Free Digital Merch</h3>
+                        <p class="text-secondary">Digital packs and wallpapers free for loyal users</p>
+                    </div>
+                    <div class="stat-card fade-in">
+                        <div style="font-size: 2.5rem; color: var(--accent); margin-bottom: 1rem;">
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <h3>Badge Rewards</h3>
+                        <p class="text-secondary">Badges unlock additional discounts and early access</p>
+                    </div>
+                </div>
+                
+                <div style="text-align: center; margin-top: 3rem;">
+                    <a href="#join" class="btn btn-primary nav-change" data-page="join">Become a Member</a>
+                </div>
+            </div>
+        </section>
+    </section>
+
+    <!-- About Page -->
+    <section id="about-page" class="page-section">
+        <div class="hero" style="background: linear-gradient(135deg, rgba(10, 10, 10, 0.9) 0%, rgba(26, 26, 26, 0.8) 100%), url('https://images.unsplash.com/photo-1589256469067-ea99122bbdc4?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80');">
+            <div class="container">
+                <h1>ANDREW <span class="accent">KIBE</span></h1>
+                <p class="text-secondary">Media personality, podcaster, and digital content creator known for his controversial, outspoken, and often polarizing views.</p>
+            </div>
+        </div>
+
+        <section class="section">
+            <div class="container">
+                <div class="about-content">
+                    <div class="about-image">
+                        <!-- Placeholder for Andrew Kibe image -->
+                        <div style="width: 100%; height: 500px; background: linear-gradient(135deg, #2a2a2a, #1a1a1a); display: flex; align-items: center; justify-content: center; border-radius: 10px;">
+                            <div style="text-align: center; padding: 2rem;">
+                                <div style="font-size: 5rem; color: var(--medium-gray); margin-bottom: 1rem;">
+                                    <i class="fas fa-user"></i>
+                                </div>
+                                <h3 style="color: var(--accent);">Andrew Kibe</h3>
+                                <p class="text-secondary">Media Personality & Podcaster</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="about-text">
+                        <h2>Who He Is</h2>
+                        <p class="text-secondary">Andrew Kibe is a Kenyan media personality, podcaster, and digital content creator who has revolutionized online discourse in East Africa. Formerly a radio presenter, he transitioned fully to online platforms where he gained massive attention through YouTube, podcasts, and social media.</p>
+                        
+                        <h3>Content Style</h3>
+                        <p class="text-secondary">Known for his raw, unfiltered commentary that sparks debate and strong reactions, Kibe tackles topics that many avoid. His content walks the line between motivation and provocation, challenging listeners to question mainstream narratives.</p>
+                        
+                        <h3>Core Topics</h3>
+                        <p class="text-secondary">
+                            <strong>• Modern relationships & gender dynamics</strong><br>
+                            • Masculinity and self-improvement<br>
+                            • Critiques of social norms and dating culture<br>
+                            • Media hypocrisy and societal expectations
+                        </p>
+                        
+                        <h3>Why He's Influential</h3>
+                        <p class="text-secondary">Whether people support or strongly oppose him, Andrew Kibe has influenced online conversations around masculinity in Kenya, proven the power of independent digital media, and shown how controversy can fuel personal branding while building a loyal tribe.</p>
+                    </div>
+                </div>
+                
+                <!-- Career Timeline -->
+                <div style="margin-top: 5rem;">
+                    <div class="section-header">
+                        <div class="section-subtitle">Journey</div>
+                        <h2>Career Timeline</h2>
+                        <p class="section-description">The evolution of Andrew Kibe's media career and brand development</p>
+                    </div>
+                    
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
+                        <div class="card fade-in">
+                            <div class="card-content">
+                                <div style="color: var(--accent); font-weight: 700; margin-bottom: 0.5rem;">2010-2015</div>
+                                <h4>Radio Beginnings</h4>
+                                <p class="text-secondary">Started career as a radio presenter in Kenya, developing his unique on-air persona and building initial audience.</p>
+                            </div>
+                        </div>
+                        <div class="card fade-in">
+                            <div class="card-content">
+                                <div style="color: var(--accent); font-weight: 700; margin-bottom: 0.5rem;">2016-2018</div>
+                                <h4>Digital Transition</h4>
+                                <p class="text-secondary">Transitioned to online platforms, starting YouTube channel and podcast. Gained attention for controversial takes.</p>
+                            </div>
+                        </div>
+                        <div class="card fade-in">
+                            <div class="card-content">
+                                <div style="color: var(--accent); font-weight: 700; margin-bottom: 0.5rem;">2019-2021</div>
+                                <h4>Tribe Formation</h4>
+                                <p class="text-secondary">Built "Kibe Nation" - a loyal community around unfiltered truth. Started live shows and merch drops.</p>
+                            </div>
+                        </div>
+                        <div class="card fade-in">
+                            <div class="card-content">
+                                <div style="color: var(--accent); font-weight: 700; margin-bottom: 0.5rem;">2022-Present</div>
+                                <h4>Author & Brand Expansion</h4>
+                                <p class="text-secondary">Published "28 Commandments to Manhood", expanded merch line, and solidified tribe ecosystem.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Controversy & Impact -->
+                <div style="margin-top: 5rem;">
+                    <div class="section-header">
+                        <div class="section-subtitle">Impact & Legacy</div>
+                        <h2>Cultural Influence</h2>
+                        <p class="section-description">Andrew Kibe's controversial approach has reshaped online discourse in Kenya and beyond</p>
+                    </div>
+                    
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 3rem; margin-top: 2rem;">
+                        <div class="card fade-in">
+                            <div class="card-content">
+                                <h3 style="color: var(--warning); margin-bottom: 1rem;">Why He's Controversial</h3>
+                                <ul style="padding-left: 1.5rem;">
+                                    <li class="text-secondary">Accused by critics of being misogynistic or extreme</li>
+                                    <li class="text-secondary">Frequently clashes with Kenyan media and celebrities</li>
+                                    <li class="text-secondary">Content walks the line between motivation and provocation</li>
+                                    <li class="text-secondary">Challenges mainstream feminist narratives</li>
+                                    <li class="text-secondary">Uses shock value to attract attention to important topics</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="card fade-in">
+                            <div class="card-content">
+                                <h3 style="color: var(--accent); margin-bottom: 1rem;">Impact & Legacy</h3>
+                                <ul style="padding-left: 1.5rem;">
+                                    <li class="text-secondary">Influenced online conversations around masculinity</li>
+                                    <li class="text-secondary">Proven the power of independent digital media</li>
+                                    <li class="text-secondary">Shown how controversy can fuel personal branding</li>
+                                    <li class="text-secondary">Built a loyal tribe that transcends traditional fandom</li>
+                                    <li class="text-secondary">Inspired other creators to embrace unfiltered approaches</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </section>
+
+    <!-- Discussions Page -->
+    <section id="discussions-page" class="page-section">
+        <div class="hero" style="background: linear-gradient(135deg, rgba(10, 10, 10, 0.9) 0%, rgba(26, 26, 26, 0.8) 100%), url('https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80');">
+            <div class="container">
+                <h1>TRIBE <span class="accent">DISCUSSIONS</span></h1>
+                <p class="text-secondary">Where unfiltered truth meets respectful debate. Engage with the tribe on the topics that matter.</p>
+            </div>
+        </div>
+
+        <section class="section">
+            <div class="container">
+                <div class="section-header">
+                    <div class="section-subtitle">Active Conversations</div>
+                    <h2>Latest Discussions</h2>
+                    <p class="section-description">Join the conversation or start your own</p>
+                </div>
+                
+                <div class="discussion-filters">
+                    <button class="filter-btn active">All Topics</button>
+                    <button class="filter-btn">Relationships</button>
+                    <button class="filter-btn">Masculinity</button>
+                    <button class="filter-btn">Society</button>
+                    <button class="filter-btn">Self-Improvement</button>
+                    <button class="filter-btn">Trending</button>
+                </div>
+                
+                <div class="discussion-list">
+                    <!-- Discussion 1 -->
+                    <div class="discussion-card fade-in">
+                        <div class="discussion-header">
+                            <div>
+                                <h3>Is modern dating completely broken?</h3>
+                                <div class="discussion-meta">
+                                    <span><i class="fas fa-user"></i> Alpha_Kenyan</span>
+                                    <span><i class="fas fa-clock"></i> 2 hours ago</span>
+                                    <span><i class="fas fa-comments"></i> Relationships</span>
+                                </div>
+                            </div>
+                            <div class="badges">
+                                <span class="badge warning">HOT</span>
+                            </div>
+                        </div>
+                        <p class="text-secondary">After the latest podcast episode, I've been thinking about how dating apps have changed the dynamics completely. Are we seeing the end of traditional dating? What's the solution for men who want serious relationships?</p>
+                        <div class="discussion-stats">
+                            <span><i class="fas fa-comment"></i> 142 comments</span>
+                            <span><i class="fas fa-heart"></i> 324 likes</span>
+                            <span><i class="fas fa-eye"></i> 2.1k views</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Discussion 2 -->
+                    <div class="discussion-card fade-in">
+                        <div class="discussion-header">
+                            <div>
+                                <h3>The discipline paradox: How to stay consistent</h3>
+                                <div class="discussion-meta">
+                                    <span><i class="fas fa-user"></i> James_Macharia</span>
+                                    <span><i class="fas fa-clock"></i> 5 hours ago</span>
+                                    <span><i class="fas fa-comments"></i> Self-Improvement</span>
+                                </div>
+                            </div>
+                            <div class="badges">
+                                <span class="badge success">HELPFUL</span>
+                            </div>
+                        </div>
+                        <p class="text-secondary">Kibe always talks about discipline, but how do we actually implement it? I've been tracking my habits for 30 days and here's what I've learned about building lasting discipline instead of motivation-based action.</p>
+                        <div class="discussion-stats">
+                            <span><i class="fas fa-comment"></i> 89 comments</span>
+                            <span><i class="fas fa-heart"></i> 211 likes</span>
+                            <span><i class="fas fa-eye"></i> 1.4k views</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Discussion 3 -->
+                    <div class="discussion-card fade-in">
+                        <div class="discussion-header">
+                            <div>
+                                <h3>Feminism vs Masculinity: Finding balance</h3>
+                                <div class="discussion-meta">
+                                    <span><i class="fas fa-user"></i> Truth_Monger</span>
+                                    <span><i class="fas fa-clock"></i> 1 day ago</span>
+                                    <span><i class="fas fa-comments"></i> Society</span>
+                                </div>
+                            </div>
+                            <div class="badges">
+                                <span class="badge info">DEBATE</span>
+                            </div>
+                        </div>
+                        <p class="text-secondary">Kibe often criticizes modern feminism, but is there a middle ground? Can we champion masculine values while supporting gender equality? Let's have a respectful debate based on the latest podcast points.</p>
+                        <div class="discussion-stats">
+                            <span><i class="fas fa-comment"></i> 267 comments</span>
+                            <span><i class="fas fa-heart"></i> 412 likes</span>
+                            <span><i class="fas fa-eye"></i> 3.2k views</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Discussion 4 -->
+                    <div class="discussion-card fade-in">
+                        <div class="discussion-header">
+                            <div>
+                                <h3>Financial discipline: The most neglected commandment</h3>
+                                <div class="discussion-meta">
+                                    <span><i class="fas fa-user"></i> RealMan_254</span>
+                                    <span><i class="fas fa-clock"></i> 2 days ago</span>
+                                    <span><i class="fas fa-comments"></i> Masculinity</span>
+                                </div>
+                            </div>
+                            <div class="badges">
+                                <span class="badge gold">TOP CONTRIBUTOR</span>
+                            </div>
+                        </div>
+                        <p class="text-secondary">In the book "28 Commandments", Kibe mentions financial responsibility as key to manhood. Let's share practical strategies for budgeting, investing, and avoiding lifestyle inflation. What's working for you?</p>
+                        <div class="discussion-stats">
+                            <span><i class="fas fa-comment"></i> 103 comments</span>
+                            <span><i class="fas fa-heart"></i> 287 likes</span>
+                            <span><i class="fas fa-eye"></i> 2.3k views</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Discussion 5 -->
+                    <div class="discussion-card fade-in">
+                        <div class="discussion-header">
+                            <div>
+                                <h3>Media hypocrisy: Case study from last week's controversy</h3>
+                                <div class="discussion-meta">
+                                    <span><i class="fas fa-user"></i> KibeDisciple</span>
+                                    <span><i class="fas fa-clock"></i> 3 days ago</span>
+                                    <span><i class="fas fa-comments"></i> Media & Culture</span>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="text-secondary">Analyzing how mainstream media covered Kibe's latest comments vs how they cover similar comments from other personalities. The double standards are becoming impossible to ignore. Let's break down specific examples.</p>
+                        <div class="discussion-stats">
+                            <span><i class="fas fa-comment"></i> 178 comments</span>
+                            <span><i class="fas fa-heart"></i> 356 likes</span>
+                            <span><i class="fas fa-eye"></i> 2.8k views</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Pagination -->
+                <div class="pagination">
+                    <a href="#" class="page-link"><i class="fas fa-chevron-left"></i></a>
+                    <a href="#" class="page-link active">1</a>
+                    <a href="#" class="page-link">2</a>
+                    <a href="#" class="page-link">3</a>
+                    <a href="#" class="page-link">4</a>
+                    <a href="#" class="page-link">5</a>
+                    <a href="#" class="page-link"><i class="fas fa-chevron-right"></i></a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Discussion Guidelines -->
+        <section class="section section-alt">
+            <div class="container">
+                <div class="section-header">
+                    <div class="section-subtitle">Community Standards</div>
+                    <h2>How to Have Productive Discussions</h2>
+                    <p class="section-description">Guidelines for maintaining respectful and valuable conversations within the tribe</p>
+                </div>
+                
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem;">
+                    <div class="card">
+                        <div class="card-content" style="text-align: center;">
+                            <div style="font-size: 2rem; color: var(--accent); margin-bottom: 1rem;">
+                                <i class="fas fa-lightbulb"></i>
+                            </div>
+                            <h4>Start with Value</h4>
+                            <p class="text-secondary">Begin discussions with insights, not just questions. Share your perspective first.</p>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-content" style="text-align: center;">
+                            <div style="font-size: 2rem; color: var(--accent); margin-bottom: 1rem;">
+                                <i class="fas fa-user-friends"></i>
+                            </div>
+                            <h4>Respect Differences</h4>
+                            <p class="text-secondary">Challenge ideas, not people. Personal attacks result in immediate bans.</p>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-content" style="text-align: center;">
+                            <div style="font-size: 2rem; color: var(--accent); margin-bottom: 1rem;">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                            <h4>Back Up Claims</h4>
+                            <p class="text-secondary">Use evidence, personal experience, or logical reasoning to support arguments.</p>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-content" style="text-align: center;">
+                            <div style="font-size: 2rem; color: var(--accent); margin-bottom: 1rem;">
+                                <i class="fas fa-award"></i>
+                            </div>
+                            <h4>Earn Badges</h4>
+                            <p class="text-secondary">Quality contributions earn recognition, badges, and status within the tribe.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </section>
+
+    <!-- Join Tribe Page -->
+    <section id="join-page" class="page-section">
+        <div class="hero" style="background: linear-gradient(135deg, rgba(10, 10, 10, 0.9) 0%, rgba(26, 26, 26, 0.8) 100%), url('https://images.unsplash.com/photo-1529156069898-49953e39b3ac?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80');">
+            <div class="container">
+                <h1>JOIN THE <span class="accent">TRIBE</span></h1>
+                <p class="text-secondary">Stop consuming. Start belonging. Build your identity with like-minded individuals challenging mainstream narratives.</p>
+            </div>
+        </div>
+
+        <section class="section">
+            <div class="container">
+                <div class="form-container">
+                    <h2 style="text-align: center; margin-bottom: 0.5rem;">Become a Tribe Member</h2>
+                    <p style="text-align: center; color: var(--text-secondary); margin-bottom: 2rem;">Fill out the form below to join Kibe Nation</p>
+                    
+                    <form id="join-form">
+                        <div class="form-group">
+                            <label class="form-label">Full Name *</label>
+                            <input type="text" class="form-input" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Email Address *</label>
+                            <input type="email" class="form-input" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Username *</label>
+                            <input type="text" class="form-input" required>
+                            <small style="color: var(--text-secondary);">This will be your identity in the tribe community</small>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Password *</label>
+                            <input type="password" class="form-input" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">How did you hear about Kibe Nation?</label>
+                            <select class="form-select">
+                                <option value="">Select an option</option>
+                                <option value="youtube">YouTube</option>
+                                <option value="podcast">Podcast</option>
+                                <option value="social">Social Media</option>
+                                <option value="friend">Friend Recommendation</option>
+                                <option value="media">Media Coverage</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Primary Interests (Select up to 3)</label>
+                            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 0.5rem; margin-top: 0.5rem;">
+                                <label class="form-checkbox">
+                                    <input type="checkbox" name="interests" value="relationships">
+                                    <span>Relationships</span>
+                                </label>
+                                <label class="form-checkbox">
+                                    <input type="checkbox" name="interests" value="masculinity">
+                                    <span>Masculinity</span>
+                                </label>
+                                <label class="form-checkbox">
+                                    <input type="checkbox" name="interests" value="society">
+                                    <span>Society</span>
+                                </label>
+                                <label class="form-checkbox">
+                                    <input type="checkbox" name="interests" value="self-improvement">
+                                    <span>Self-Improvement</span>
+                                </label>
+                                <label class="form-checkbox">
+                                    <input type="checkbox" name="interests" value="media">
+                                    <span>Media & Culture</span>
+                                </label>
+                                <label class="form-checkbox">
+                                    <input type="checkbox" name="interests" value="finance">
+                                    <span>Finance</span>
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Why do you want to join the tribe? *</label>
+                            <textarea class="form-textarea" placeholder="Share your motivations for joining Kibe Nation..." required></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-checkbox">
+                                <input type="checkbox" required>
+                                <span>I agree to the <a href="#" style="color: var(--accent);">Community Guidelines</a> and <a href="#" style="color: var(--accent);">Terms of Service</a> *</span>
+                            </label>
+                            <label class="form-checkbox">
+                                <input type="checkbox">
+                                <span>I want to receive updates on new content, merch drops, and tribe events</span>
+                            </label>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary" style="width: 100%; padding: 1rem; font-size: 1.1rem;">Join the Tribe</button>
+                        
+                        <p style="text-align: center; margin-top: 1.5rem; color: var(--text-secondary);">
+                            Already have an account? <a href="#login" class="login-btn" style="color: var(--accent);">Sign In</a>
+                        </p>
+                    </form>
+                </div>
+                
+                <!-- Membership Benefits -->
+                <div style="margin-top: 4rem;">
+                    <div class="section-header">
+                        <div class="section-subtitle">Why Join</div>
+                        <h2>Membership Benefits</h2>
+                        <p class="section-description">What you gain as a member of Kibe Nation</p>
+                    </div>
+                    
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem;">
+                        <div class="card">
+                            <div class="card-content" style="text-align: center;">
+                                <div style="font-size: 3rem; color: var(--accent); margin-bottom: 1rem;">
+                                    <i class="fas fa-comments"></i>
+                                </div>
+                                <h3>Unfiltered Discussions</h3>
+                                <p class="text-secondary">Access to all topic rooms and debates. Share your perspective without censorship.</p>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-content" style="text-align: center;">
+                                <div style="font-size: 3rem; color: var(--accent); margin-bottom: 1rem;">
+                                    <i class="fas fa-crown"></i>
+                                </div>
+                                <h3>Exclusive Access</h3>
+                                <p class="text-secondary">Early merch access, member-only content, and special tribe events.</p>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-content" style="text-align: center;">
+                                <div style="font-size: 3rem; color: var(--accent); margin-bottom: 1rem;">
+                                    <i class="fas fa-award"></i>
+                                </div>
+                                <h3>Status & Recognition</h3>
+                                <p class="text-secondary">Earn badges, climb leaderboards, and build your reputation in the tribe.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-about">
+                <div class="footer-logo">
+                    <span class="accent">KIBE</span> NATION
+                </div>
+                <p class="text-secondary">The tribe that challenges mainstream narratives. Building identity through unfiltered truth and wearable mindset.</p>
+                <div class="social-links" style="margin-top: 1.5rem; display: flex; gap: 1rem;">
+                    <a href="#" style="color: var(--text-secondary); font-size: 1.2rem;"><i class="fab fa-youtube"></i></a>
+                    <a href="#" style="color: var(--text-secondary); font-size: 1.2rem;"><i class="fab fa-twitter"></i></a>
+                    <a href="#" style="color: var(--text-secondary); font-size: 1.2rem;"><i class="fab fa-instagram"></i></a>
+                    <a href="#" style="color: var(--text-secondary); font-size: 1.2rem;"><i class="fab fa-discord"></i></a>
+                </div>
+            </div>
+            
+            <div class="footer-links">
+                <h4>Community</h4>
+                <ul>
+                    <li><a href="#community" class="nav-change" data-page="community">Topic Rooms</a></li>
+                    <li><a href="#community" class="nav-change" data-page="community">Leaderboard</a></li>
+                    <li><a href="#community" class="nav-change" data-page="community">Badges & Achievements</a></li>
+                    <li><a href="#discussions" class="nav-change" data-page="discussions">Latest Discussions</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-links">
+                <h4>Merchandise</h4>
+                <ul>
+                    <li><a href="#merch" class="nav-change" data-page="merch">Latest Drop</a></li>
+                    <li><a href="#merch" class="nav-change" data-page="merch">28 Commandments Book</a></li>
+                    <li><a href="#merch" class="nav-change" data-page="merch">Member Exclusives</a></li>
+                    <li><a href="#merch" class="nav-change" data-page="merch">All Products</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-links">
+                <h4>Tribe</h4>
+                <ul>
+                    <li><a href="#about" class="nav-change" data-page="about">About Kibe</a></li>
+                    <li><a href="#join" class="nav-change" data-page="join">Join the Tribe</a></li>
+                    <li><a href="#login" class="login-btn">Member Login</a></li>
+                    <li><a href="#" onclick="openModal('contact')">Contact & Support</a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="copyright">
+            <p>&copy; 2023 Kibe Nation. All rights reserved. Wear your mindset.</p>
+            <p style="margin-top: 0.5rem; font-size: 0.8rem;">This is a conceptual website for Andrew Kibe's brand ecosystem.</p>
+        </div>
+    </footer>
+
+    <!-- Modals -->
+    <div class="modal" id="loginModal">
+        <div class="modal-content">
+            <button class="close-modal" onclick="closeModal()">&times;</button>
+            <h3 class="modal-title">Tribe Member Login</h3>
+            <form id="login-form">
+                <div class="form-group">
+                    <label class="form-label">Username or Email</label>
+                    <input type="text" class="form-input" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Password</label>
+                    <input type="password" class="form-input" required>
+                </div>
+                
+                <div class="form-group" style="display: flex; justify-content: space-between; align-items: center;">
+                    <label class="form-checkbox">
+                        <input type="checkbox">
+                        <span>Remember me</span>
+                    </label>
+                    <a href="#" style="color: var(--accent);">Forgot password?</a>
+                </div>
+                
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Sign In</button>
+                
+                <p style="text-align: center; margin-top: 1.5rem; color: var(--text-secondary);">
+                    Not a member yet? <a href="#join" class="nav-change" data-page="join" onclick="closeModal()">Join the Tribe</a>
+                </p>
+            </form>
+        </div>
+    </div>
+
+    <div class="modal" id="productModal">
+        <div class="modal-content">
+            <button class="close-modal" onclick="closeModal()">&times;</button>
+            <div id="modalProductContent">
+                <!-- Content will be loaded here by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="contactModal">
+        <div class="modal-content">
+            <button class="close-modal" onclick="closeModal()">&times;</button>
+            <h3 class="modal-title">Contact & Support</h3>
+            <form id="contact-form">
+                <div class="form-group">
+                    <label class="form-label">Name</label>
+                    <input type="text" class="form-input" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Email</label>
+                    <input type="email" class="form-input" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Subject</label>
+                    <select class="form-select">
+                        <option value="">Select a topic</option>
+                        <option value="merch">Merchandise Inquiry</option>
+                        <option value="community">Community Issue</option>
+                        <option value="technical">Technical Support</option>
+                        <option value="media">Media Inquiry</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Message</label>
+                    <textarea class="form-textarea" rows="5" required></textarea>
+                </div>
+                
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Send Message</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Mobile Navigation
+        const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+        const mobileNav = document.querySelector('.mobile-nav');
+        const mobileNavOverlay = document.querySelector('.mobile-nav-overlay');
+        const closeMobileNav = document.querySelector('.close-mobile-nav');
+        const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+        
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileNav.classList.add('active');
+            mobileNavOverlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
+        
+        closeMobileNav.addEventListener('click', () => {
+            mobileNav.classList.remove('active');
+            mobileNavOverlay.classList.remove('active');
+            document.body.style.overflow = '';
+        });
+        
+        mobileNavOverlay.addEventListener('click', () => {
+            mobileNav.classList.remove('active');
+            mobileNavOverlay.classList.remove('active');
+            document.body.style.overflow = '';
+        });
+        
+        mobileNavLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileNav.classList.remove('active');
+                mobileNavOverlay.classList.remove('active');
+                document.body.style.overflow = '';
+                
+                const page = link.getAttribute('data-page');
+                changePage(page);
+            });
+        });
+        
+        // Page Navigation
+        const navLinks = document.querySelectorAll('.nav-link, .nav-change');
+        const pageSections = document.querySelectorAll('.page-section');
+        
+        function changePage(pageId) {
+            // Hide all pages
+            pageSections.forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Show selected page
+            document.getElementById(`${pageId}-page`).classList.add('active');
+            
+            // Update active nav link
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('data-page') === pageId) {
+                    link.classList.add('active');
+                }
+            });
+            
+            // Update mobile nav link
+            mobileNavLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('data-page') === pageId) {
+                    link.classList.add('active');
+                }
+            });
+            
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }
+        
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const page = link.getAttribute('data-page');
+                changePage(page);
+            });
+        });
+        
+        // Login button handler
+        const loginButtons = document.querySelectorAll('.login-btn');
+        loginButtons.forEach(button => {
+            button.addEventListener('click', (e) => {
+                e.preventDefault();
+                openModal('login');
+            });
+        });
+        
+        // Countdown timer
+        function updateCountdown() {
+            // Set the date we're counting down to (3 days from now)
+            const countDownDate = new Date();
+            countDownDate.setDate(countDownDate.getDate() + 3);
+            
+            // Update every second
+            const x = setInterval(function() {
+                // Get today's date and time
+                const now = new Date().getTime();
+                
+                // Find the distance between now and the count down date
+                const distance = countDownDate - now;
+                
+                // Time calculations for days, hours, minutes and seconds
+                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                
+                // Display the result
+                document.getElementById("days").innerHTML = days.toString().padStart(2, '0');
+                document.getElementById("hours").innerHTML = hours.toString().padStart(2, '0');
+                document.getElementById("minutes").innerHTML = minutes.toString().padStart(2, '0');
+                document.getElementById("seconds").innerHTML = seconds.toString().padStart(2, '0');
+                
+                // Merch page countdown
+                document.getElementById("merch-days").innerHTML = days.toString().padStart(2, '0');
+                document.getElementById("merch-hours").innerHTML = hours.toString().padStart(2, '0');
+                document.getElementById("merch-minutes").innerHTML = minutes.toString().padStart(2, '0');
+                document.getElementById("merch-seconds").innerHTML = seconds.toString().padStart(2, '0');
+                
+                // If the count down is finished, write some text
+                if (distance < 0) {
+                    clearInterval(x);
+                    document.querySelector(".countdown").innerHTML = "DROP LIVE!";
+                }
+            }, 1000);
+        }
+        
+        updateCountdown();
+        
+        // Modal functionality
+        function openModal(modalType) {
+            const modal = document.getElementById('productModal');
+            const loginModal = document.getElementById('loginModal');
+            const contactModal = document.getElementById('contactModal');
+            const content = document.getElementById('modalProductContent');
+            
+            // Close all modals first
+            closeModal();
+            
+            if (modalType === 'login') {
+                loginModal.style.display = 'flex';
+                return;
+            }
+            
+            if (modalType === 'contact') {
+                contactModal.style.display = 'flex';
+                return;
+            }
+            
+            let productData = {};
+            let modalTitle = '';
+            
+            switch(modalType) {
+                case 'book':
+                    productData = {
+                        title: '28 Commandments to Manhood',
+                        description: 'The definitive guide to modern masculinity by Andrew Kibe. This groundbreaking book breaks down the 28 essential principles every man needs to navigate today\'s complex world.',
+                        features: [
+                            '28 actionable principles for modern masculinity',
+                            'Real-world examples and case studies',
+                            'Relationship dynamics and communication strategies',
+                            'Career & financial advice for long-term success',
+                            'Personal discipline and habit formation',
+                            'Societal expectations and how to navigate them'
+                        ],
+                        price: '$29.99',
+                        stock: 'Limited signed copies available',
+                        type: 'book'
+                    };
+                    modalTitle = '28 Commandments to Manhood';
+                    break;
+                    
+                case 'hoodie':
+                    productData = {
+                        title: 'Unfiltered Truth Hoodie',
+                        description: 'Premium black hoodie with bold red typography that represents the tribe\'s commitment to unfiltered truth. Made from heavyweight cotton blend for maximum comfort and durability.',
+                        features: [
+                            'Limited edition - never restocking',
+                            'Premium heavyweight cotton blend',
+                            'Bold red typography print',
+                            'Kibe Nation emblem on sleeve',
+                            'Members get 15% discount',
+                            'Unisex sizing available'
+                        ],
+                        price: '$49.99',
+                        stock: 'Only 23 left in stock',
+                        type: 'hoodie'
+                    };
+                    modalTitle = 'Unfiltered Truth Hoodie';
+                    break;
+                    
+                case 'cap':
+                    productData = {
+                        title: 'Mindset Cap',
+                        description: 'Structured black cap with embroidered tribe symbol. Designed for those who carry the mindset everywhere they go.',
+                        features: [
+                            'Members only exclusive',
+                            'Structured fit with curved brim',
+                            'Embroidered tribe symbol',
+                            'Adjustable strap for perfect fit',
+                            'Premium cotton twill construction'
+                        ],
+                        price: '$29.99',
+                        stock: 'Only 15 left in stock',
+                        type: 'cap'
+                    };
+                    modalTitle = 'Mindset Cap';
+                    break;
+                    
+                case 'badges-info':
+                    productData = {
+                        title: 'Badges & Achievements',
+                        description: 'Earn recognition in the tribe through active participation and quality contributions.',
+                        features: [
+                            'Top Contributor: For most liked posts and comments',
+                            'Debate Champion: For respectful, evidence-based debates',
+                            'Voice of the Tribe: For influential perspectives',
+                            'OG Member: For early supporters of Kibe Nation',
+                            'Early Supporter: Joined during first 6 months',
+                            'Helpful User: Consistently provides valuable insights'
+                        ],
+                        price: '',
+                        stock: '',
+                        type: 'info'
+                    };
+                    modalTitle = 'Badges & Achievements';
+                    break;
+                    
+                case 'book-preview':
+                    productData = {
+                        title: 'Book Preview - First 3 Commandments',
+                        description: 'Get a sneak peek at the first three commandments from "28 Commandments to Manhood".',
+                        features: [
+                            'Commandment 1: Take Full Responsibility - Your life is your creation, no excuses.',
+                            'Commandment 2: Master Your Finances - Money is a tool for freedom, not just consumption.',
+                            'Commandment 3: Cultivate Discipline - Motivation is temporary, discipline is permanent.'
+                        ],
+                        price: '',
+                        stock: 'Full book available for pre-order',
+                        type: 'preview'
+                    };
+                    modalTitle = 'Book Preview';
+                    break;
+            }
+            
+            let featuresHTML = '';
+            if (productData.features.length > 0) {
+                productData.features.forEach(feature => {
+                    featuresHTML += `<li style="margin-bottom: 0.5rem; margin-left: 1.5rem;"><i class="fas fa-check" style="color: var(--accent); margin-right: 0.5rem;"></i>${feature}</li>`;
+                });
+            }
+            
+            let actionButton = '';
+            if (productData.type === 'info' || productData.type === 'preview') {
+                actionButton = `<button class="btn btn-outline" style="width: 100%; margin-top: 1.5rem;" onclick="closeModal()">Close</button>`;
+            } else {
+                actionButton = `
+                    <div style="display: flex; gap: 1rem; margin-top: 1.5rem;">
+                        <button class="btn btn-primary" style="flex: 1;">Add to Cart</button>
+                        <button class="btn btn-outline" style="flex: 1;">Save for Later</button>
+                    </div>
+                `;
+            }
+            
+            content.innerHTML = `
+                <h3 class="modal-title">${modalTitle}</h3>
+                <p style="margin-bottom: 1.5rem; color: var(--text-secondary);">${productData.description}</p>
+                
+                ${productData.features.length > 0 ? `
+                <h4 style="margin-bottom: 0.75rem; color: var(--accent);">Features:</h4>
+                <ul style="margin-bottom: 1.5rem; color: var(--text-secondary);">
+                    ${featuresHTML}
+                </ul>
+                ` : ''}
+                
+                ${productData.price ? `<div class="product-price">${productData.price}</div>` : ''}
+                ${productData.stock ? `<div class="stock-indicator"><i class="fas fa-exclamation-circle"></i> ${productData.stock}</div>` : ''}
+                
+                ${actionButton}
+            `;
+            
+            modal.style.display = 'flex';
+        }
+        
+        function closeModal() {
+            document.getElementById('productModal').style.display = 'none';
+            document.getElementById('loginModal').style.display = 'none';
+            document.getElementById('contactModal').style.display = 'none';
+        }
+        
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modals = document.querySelectorAll('.modal');
+            modals.forEach(modal => {
+                if (event.target == modal) {
+                    modal.style.display = 'none';
+                }
+            });
+        }
+        
+        // Form submissions
+        document.getElementById('join-form')?.addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Thank you for joining Kibe Nation! You will receive a confirmation email shortly.');
+            changePage('home');
+        });
+        
+        document.getElementById('login-form')?.addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Login successful! Welcome back to the tribe.');
+            closeModal();
+        });
+        
+        document.getElementById('contact-form')?.addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Thank you for your message! We will respond within 48 hours.');
+            closeModal();
+        });
+        
+        // Tabs functionality
+        const tabs = document.querySelectorAll('.tab');
+        tabs.forEach(tab => {
+            tab.addEventListener('click', function() {
+                // Remove active class from all tabs
+                tabs.forEach(t => t.classList.remove('active'));
+                // Add active class to clicked tab
+                this.classList.add('active');
+                
+                // Show corresponding tab content
+                const tabId = this.getAttribute('data-tab');
+                const tabContents = document.querySelectorAll('.tab-content');
+                tabContents.forEach(content => {
+                    content.classList.remove('active');
+                });
+                document.getElementById(`${tabId}-tab`)?.classList.add('active');
+                document.getElementById(`${tabId}-tab-full`)?.classList.add('active');
+            });
+        });
+        
+        // Discussion filters
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        filterButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                // Remove active class from all buttons
+                filterButtons.forEach(btn => btn.classList.remove('active'));
+                // Add active class to clicked button
+                this.classList.add('active');
+            });
+        });
+        
+        // Scroll animations
+        document.addEventListener('DOMContentLoaded', function() {
+            const fadeElements = document.querySelectorAll('.fade-in');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('fade-in');
+                    }
+                });
+            }, { threshold: 0.1 });
+            
+            fadeElements.forEach(element => {
+                observer.observe(element);
+            });
+        });
+    </script>
+</body>
+</html>
